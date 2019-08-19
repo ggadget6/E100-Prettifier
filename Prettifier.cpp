@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <cctype>
 
 using namespace std;
 
@@ -14,14 +15,14 @@ private:
         /*bool leadingWhitespace; //alternative solution: if leading whitespace, 
         //just make first element in vector a space*/
     public:
-        //constructor here, should take in a string. if leading whitespace, set bool.
+        //constructor here, should take in a string. if leading whitespace, push a space.
         //constructor must deal with comments correctly--easy
         //if at end of line, not as easy other areas
         Line(string in, vector<int>& maxes) {
             if(in.size() == 0) {
                 return;
             }
-            if(isWhitespace(in.at(0))) {
+            if(isspace(in.at(0))) {
                 words.push_back(" ");
             }
             istringstream input(in);
@@ -29,6 +30,13 @@ private:
             while(input >> temporary) {
                 if(temporary.find("//") != string::npos) {
                     //ostringstream os;
+                    //adjusts comment lines to the end if they aren't at the beginning
+                    //could be buggy
+                    if(words.size() > 0) {
+                        while(words.size() < 5) {
+                            words.push_back(" ");
+                        }
+                    }
                     int lengthUnget = temporary.size();
                     for(int i = 0; i < lengthUnget; ++i) {
                         input.unget();
@@ -72,9 +80,6 @@ private:
         void updateMax (vector<int>& maxes) {
             
         }*/
-        bool isWhitespace(char c) {
-
-        }
     }; 
 
     
@@ -91,10 +96,24 @@ public:
     //MODIFIES: ofstream out
     //EFFECTS: writes the pretty version out to the file
     void writeToFile(ofstream& out) {
-
+        string toAdd;
+        //loop through all Lines and then each word
+        for(int i = 0; i < pageLines.size(); ++i) {
+            Line& currentLine = pageLines.at(i);
+            int lineLength = currentLine.size();
+            for(int j = 0; j < lineLength; ++j) {
+                toAdd = currentLine.at(j);
+                //add spaces until correct length
+                while(toAdd.size() < maximums.at(j) + 4) {
+                    toAdd += " ";
+                }
+                out << toAdd;
+            }
+            out << endl;
+        }
     }
 private:
     string infileName, outfileName;
-    vector<int> maximums = {0, 0, 0, 0, 0};
+    vector<int> maximums = {0, 0, 0, 0, 0, 0};
     vector<Line> pageLines;
 };
