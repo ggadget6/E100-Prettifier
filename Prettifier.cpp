@@ -28,13 +28,29 @@ private:
             string temporary;
             while(input >> temporary) {
                 if(temporary.find("//") != string::npos) {
-                    ostringstream os;
+                    //ostringstream os;
                     int lengthUnget = temporary.size();
                     for(int i = 0; i < lengthUnget; ++i) {
                         input.unget();
                     }
-                    input >> os.rdbuf(); //might be able to use getline!!
-                    words.push_back(os.str());
+                    getline(input, temporary);
+                    words.push_back(temporary);
+                    //input >> os.rdbuf(); //might be able to use getline!!
+                    //words.push_back(os.str());
+                    return;
+                }
+                //if nothing special, just add in the word and update length
+                words.push_back(temporary);
+                if(temporary.size() > maxes.at(words.size() - 1)) {
+                    maxes.at(words.size() - 1) = temporary.size();
+                }
+                //if there have already been 5 words (label, opcode, and three arguments)
+                //then the rest of the line should not be counted toward the max and 
+                //should be added as one string 
+                if(words.size() > 4) {
+                    if(getline(input, temporary)) {
+                       words.push_back(temporary); 
+                    }                    
                     return;
                 }
             }
