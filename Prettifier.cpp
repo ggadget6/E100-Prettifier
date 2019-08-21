@@ -61,7 +61,7 @@ Page::Line::Line(string in, vector<int>& maxes) {
     }
 }
 
-int Page::Line::size() {
+int Page::Line::size() const{
     return words.size();
 }
 
@@ -73,17 +73,16 @@ string Page::Line::operator[](int pos) {
 }
     
 //Page constructor. It should take in a filename and start parsing lines
-Page::Page(string infile, string outfile): infileName(infile), outfileName(outfile) {
-    ifstream in(infileName);
+Page::Page(ifstream& infile, ofstream& outfile): infileName(infile), outfileName(outfile) {
     string input;
-    while(getline(in, input)) {
+    while(getline(infileName, input)) {
         pageLines.push_back(Line(input, maximums));
     }
 }
 //REQUIRES: all file parsing must already be complete
 //MODIFIES: ofstream out
 //EFFECTS: writes the pretty version out to the file
-void Page::writeToFile(ofstream& out) {
+void Page::writeToFile() {
     string toAdd;
     //loop through all Lines and then each word
     for(int i = 0; i < pageLines.size(); ++i) {
@@ -95,8 +94,8 @@ void Page::writeToFile(ofstream& out) {
             while(toAdd.size() < maximums.at(j) + 4) {
                 toAdd += " ";
             }
-            out << toAdd;
+            outfileName << toAdd;
         }
-        out << endl;
+        outfileName << endl;
     }
 }

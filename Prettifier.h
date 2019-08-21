@@ -21,7 +21,7 @@ private:
         Line(std::string in, std::vector<int>& maxes);
 
         //returns size of internal vector
-        int size();
+        int size() const;
 
         //returns element at given index, and does boundary check
         std::string at(int pos);
@@ -40,14 +40,15 @@ private:
 public:
     //Page constructor takes in a filename and parses each line in the file.
     //each line goes into a "Line" object
-    Page(std::string infile, std::string outfile);
+    Page(std::ifstream& infile, std::ofstream& outfile);
 
     //REQUIRES: all file parsing must already be complete
     //MODIFIES: ofstream out
     //EFFECTS: writes the pretty version out to the file
-    void writeToFile(std::ofstream& out);
+    void writeToFile();
 private:
-    std::string infileName, outfileName;
+    std::ifstream& infileName;
+    std::ofstream& outfileName;
     std::vector<int> maximums = {0, 0, 0, 0, 0, 0};
     std::vector<Line> pageLines;
 };
