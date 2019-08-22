@@ -46,7 +46,7 @@ Page::Line::Line(string in, vector<int>& maxes) {
         }
         //if nothing special, just add in the word and update length
         words.push_back(temporary);
-        if(temporary.size() > maxes.at(words.size() - 1)) {
+        if(temporary.size() > static_cast<size_t>(maxes.at(words.size() - 1))) {
             maxes.at(words.size() - 1) = temporary.size();
         }
         //if there have already been 5 words (label, opcode, and three arguments)
@@ -85,13 +85,13 @@ Page::Page(ifstream& infile, ofstream& outfile): infileName(infile), outfileName
 void Page::writeToFile() {
     string toAdd;
     //loop through all Lines and then each word
-    for(int i = 0; i < pageLines.size(); ++i) {
+    for(size_t i = 0; i < pageLines.size(); ++i) {
         Line& currentLine = pageLines.at(i);
         int lineLength = currentLine.size();
         for(int j = 0; j < lineLength; ++j) {
             toAdd = currentLine.at(j);
             //add spaces until correct length
-            while(toAdd.size() < maximums.at(j) + 4) {
+            while(toAdd.size() < static_cast<size_t>(maximums.at(j) + 4)) {
                 toAdd += " ";
             }
             outfileName << toAdd;

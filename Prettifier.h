@@ -52,4 +52,4 @@ private:
     std::vector<int> maximums = {0, 0, 0, 0, 0, 0};
     std::vector<Line> pageLines;
 };
-#endif PRETTIFIER_H
+#endif
