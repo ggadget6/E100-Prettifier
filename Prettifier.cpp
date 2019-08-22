@@ -6,6 +6,11 @@
 
 using namespace std;
 
+//helper function for trimming whitespace
+void ltrimWhitespace(string& input) {
+    const char* white = " \t\n\r\f\v";
+    input.erase(0, input.find_first_not_of(white)); 
+}
 
 //Line constructor, takes in string and vector of maximums. 
 //updates vector of maximums while adding words
@@ -54,6 +59,7 @@ Page::Line::Line(string in, vector<int>& maxes) {
         //should be added as one string 
         if(words.size() > 4) {
             if(getline(input, temporary)) {
+                ltrimWhitespace(temporary);
                 words.push_back(temporary); 
             }                    
             return;
@@ -99,3 +105,5 @@ void Page::writeToFile() {
         outfileName << endl;
     }
 }
+
+
