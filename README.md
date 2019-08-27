@@ -19,4 +19,10 @@ git clone https://github.com/ggadget6/E100-Prettifier.git
 make pretty infilename=(input here) outfilename=(output here)
 ```
 
-Replace "input here" with the name of your input file and "output here" with the name of your output file. I recommend that you don't make the output filename the same as the input filename just in case the output doesn't come out like you want it to. 
+Replace "input here" with the name of your input file and "output here" with the name of your output file. I recommend that you don't make the output filename the same as the input filename just in case the output doesn't come out like you want it to. Don't include the parentheses when typing your file names.
+
+### Example
+
+```bash
+make pretty infilename=sd_driver.e outfilename=sd_driver_pretty.e
+```
